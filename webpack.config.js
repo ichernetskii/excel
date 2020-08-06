@@ -1,0 +1,3 @@
+{
+    hotfix: "hotfix!"
+}
