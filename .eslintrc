@@ -1,0 +1,17 @@
+{
+  "parser": "babel-eslint",
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true
+  },
+  "extends": ["eslint:recommended", "google"],
+  "rules": {
+    "quotes": ["error", "double"],
+    "object-curly-spacing": ["error", "always", {"arraysInObjects":  true, "objectsInObjects":  true}],
+    "arrow-parens": ["error", "as-needed"],
+    "indent": ["error", 4],
+    "comma-dangle": ["error", "never"],
+    "semi": "off"
+  }
+}
