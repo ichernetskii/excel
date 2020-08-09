@@ -82,7 +82,7 @@ module.exports = {
                     },
                     "css-loader",
                     "sass-loader"
-                ],
+                ]
             },
             {
                 test: /\.js$/,
