@@ -10,8 +10,11 @@
     "quotes": ["error", "double"],
     "object-curly-spacing": ["error", "always", {"arraysInObjects":  true, "objectsInObjects":  true}],
     "arrow-parens": ["error", "as-needed"],
-    "indent": ["error", 4],
+    "indent": "off",
+    "no-trailing-spaces": "off",
     "comma-dangle": ["error", "never"],
-    "semi": "off"
+    "semi": "off",
+    "require-jsdoc": "off",
+    "max-len": ["error", 100]
   }
 }
