@@ -2,5 +2,18 @@
 @import "../utils/mixins.scss";
 
 .toolbar {
+  position: absolute;
+  background-color: aquamarine;
+  height: var(--toolbar-height);
+  left: 0;
+  right: 0;
+  top: var(--header-height);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  padding: 7px 10px;
+  display: flex;
 
+  .button {
+    @include button(#0F0);
+  }
 }

@@ -1,0 +1,94 @@
+@import "utils/variables.scss";
+@import "utils/mixins.scss";
+
+.db {
+  &__header {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: var(--db-header-height);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFF;
+    box-shadow: 0 2px 5px 2px rgba(60, 64, 67, 0.15);
+    z-index: 1000;
+  }
+
+  &__new {
+    margin-top: var(--db-header-height);
+    padding: 1.5rem;
+    background: #DADCE0;
+  }
+
+  &__view {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  &__create {
+    width: 160px;
+    height: 160px;
+    border-radius: 4px;
+    background-color: #FFF;
+    border: 1px solid #DADCE0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: #000;
+    text-align: center;
+
+    &:hover {
+      cursor: pointer;
+      color: #090;
+      border-color: #090;
+    }
+  }
+
+  &__table {
+    padding: 1rem;
+    max-width: 1000px;
+    margin: 0 auto;
+
+  }
+
+  &__list-header {
+    display: flex;
+    justify-content: space-between;
+    color: #202124;
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 10px;
+    padding: 0 12px;
+  }
+
+  &__list {
+    @include clear-list();
+  }
+
+  &__record {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 14px 12px 12px;
+
+    &:hover {
+      background-color: #E6F4EA;
+      border-radius: 10px;
+    }
+
+    a {
+      text-decoration: none;
+      cursor: pointer;
+      color: #202124;
+      font-size: 14px;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

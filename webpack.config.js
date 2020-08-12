@@ -25,6 +25,18 @@ const jsLoaders = () => {
 
     return loaders;
 };
+const htmlPlugin = fileName => {
+    if (!fileName) fileName = "index.html";
+
+    return {
+        minify: {
+            removeComments: isProd,
+            collapseWhitespace: isProd
+        },
+        template: fileName,
+        filename: fileName
+    }
+};
 
 // == module.exports ==
 
@@ -35,7 +47,9 @@ module.exports = {
     devtool: isDev ? "source-map" : false,
     devServer: {
         port: 4200,
-        hot: isDev
+        hot: isDev,
+        contentBase: path.resolve(__dirname, "src"),
+        watchContentBase: true
     },
     output: {
         filename: "./js/" + filename("js"),
@@ -50,13 +64,9 @@ module.exports = {
     },
     plugins: [
         new CleanWebpackPlugin(),
-        new HTMLWebpackplugin({
-            minify: {
-                removeComments: isProd,
-                collapseWhitespace: isProd
-            },
-            template: "index.html"
-        }),
+        new HTMLWebpackplugin(htmlPlugin()),
+        new HTMLWebpackplugin(htmlPlugin("assets/dashboard.html")),
+        new HTMLWebpackplugin(htmlPlugin("assets/excel.html")),
         new CopyPlugin({
             patterns: [
                 {

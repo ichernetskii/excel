@@ -5,6 +5,7 @@
 @import "components/toobar.scss";
 @import "components/formula";
 @import "components/table.scss";
+@import "dashboard.scss";
 
 * {
   margin: 0;
@@ -19,4 +20,7 @@ body {
 
 .excel {
   position: relative;
+  height: 100%;
+  max-width: 100%;
+  font-size: .8rem;
 }
