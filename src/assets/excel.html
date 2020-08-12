@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Excel</title>
+</head>
+<body>
+<div id="app" class="container">
+    <div class="excel">
+        <div class="header">
+            <input class="header__input" type="text" value="New table">
+            <div>
+                <div class="button">
+                    <i class="material-icons">delete</i>
+                </div>
+                <div class="button">
+                    <i class="material-icons">exit_to_app</i>
+                </div>
+            </div>
+        </div>
+        <div class="toolbar">
+            <div class="button">
+                <i class="material-icons">format_align_left</i>
+            </div>
+            <div class="button">
+                <i class="material-icons">format_align_right</i>
+            </div>
+            <div class="button">
+                <i class="material-icons">format_align_center</i>
+            </div>
+            <div class="button">
+                <i class="material-icons">format_bold</i>
+            </div>
+            <div class="button">
+                <i class="material-icons">format_italic</i>
+            </div>
+            <div class="button">
+                <i class="material-icons">format_underline</i>
+            </div>
+        </div>
+        <div class="formula">
+            <div class="formula__info">fx</div>
+            <div class="formula__input" contenteditable="true" spellcheck="false"></div>
+        </div>
+        <div class="table">
+            <div class="table__row">
+                <div class="table__row-info"></div>
+                <div class="table__row-data">
+                    <div class="table__column">
+                        A
+                    </div>
+                    <div class="table__column">
+                        B
+                    </div>
+                    <div class="table__column">
+                        C
+                    </div>
+                </div>
+            </div>
+            <div class="table__row">
+                <div class="table__row-info">
+                    1
+                </div>
+                <div class="table__row-data">
+                    <div class="table__cell table__cell_selected" contenteditable="true">a1</div>
+                    <div class="table__cell" contenteditable="true">b1</div>
+                    <div class="table__cell" contenteditable="true">c1</div>
+                </div>
+            </div>
+            <div class="table__row">
+                <div class="table__row-info">
+                    2
+                </div>
+                <div class="table__row-data">
+                    <div class="table__cell" contenteditable="true">a2</div>
+                    <div class="table__cell" contenteditable="true">b2</div>
+                    <div class="table__cell" contenteditable="true">c2</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
