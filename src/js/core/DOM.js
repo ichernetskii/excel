@@ -3,12 +3,21 @@ class DOM {
     this.$el = typeof selector === "string" ? document.querySelector(selector) : selector;
   }
 
-  html(html = "") {
+  html(html) {
     if (typeof html === "string") {
       this.$el.innerHTML = html;
       return this;
     } else {
-      return this.$el.outerHTML.trim();
+      return this.$el.innerHTML.trim();
+    }
+  }
+
+  text(text) {
+    if (typeof text === "string") {
+      this.$el.innerText = text;
+      return this;
+    } else {
+      return this.$el.textContent.trim();
     }
   }
 
@@ -37,6 +46,44 @@ class DOM {
 
   off(eventType, callback) {
     this.$el.removeEventListener(eventType, callback);
+  }
+
+  hide() {
+    this.$el.style.display = "none";
+  }
+
+  show() {
+    this.$el.style.display = "block";
+  }
+
+  closest(selector) {
+    return $(this.$el.closest(selector));
+  }
+
+  getCoords() {
+    return this.$el.getBoundingClientRect();
+  }
+
+  querySelector(selector) {
+    return $(this.$el.querySelector(selector));
+  }
+
+  querySelectorAll(selector) {
+    return Array.from(this.$el.querySelectorAll(selector)).map(item => $(item));
+  }
+
+  get classList() {
+    return this.$el.classList
+  }
+
+  get dataset() {
+    return this.$el.dataset
+  }
+
+  css(styles = {}) {
+    for (const [key, value] of Object.entries(styles)) {
+      this.$el.style[key] = value;
+    }
   }
 }
 

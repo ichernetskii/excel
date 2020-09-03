@@ -18,6 +18,7 @@
 
   &__row-info {
     display: flex;
+    position: relative;
     justify-content: center;
     align-items: center;
     min-width: var(--info-cell-width);
@@ -29,10 +30,12 @@
 
   &__row-data {
     display: flex;
+    position: relative;
   }
 
   &__column {
     display: flex;
+    position: relative;
     justify-content: center;
     align-items: center;
     background-color: #F8F9FA;
@@ -59,8 +62,50 @@
 
     &_selected {
       border: none;
-      outline: 2px solid #3C74FF;
+      outline: 2px solid var(--accent-color);
       z-index: 2;
     }
+  }
+
+  .col-resize, .row-resize {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background: var(--accent-color);
+    opacity: 0;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  .col-resize {
+    top: 0;
+    width: 4px;
+    cursor: col-resize;
+  }
+
+  .row-resize {
+    left: 0;
+    height: 4px;
+    cursor: row-resize;
+  }
+
+  &__col-delimeter, &__row-delimeter {
+    position: absolute;
+    z-index: 1;
+    background-color: var(--accent-color);
+    display: none;
+  }
+
+  &__col-delimeter {
+    width: 4px;
+    height: 100%;
+  }
+
+  &__row-delimeter {
+    height: 4px;
+    left: calc(0px - var(--info-cell-width));
+    right: 0;
   }
 }
