@@ -3,9 +3,15 @@ const CODES = {
   Z: "Z".charCodeAt(0)
 }
 
-function createCell(elem, index) {
-  return `
-    <div class="table__cell" contenteditable="true" data-column="${String.fromCharCode(index + CODES.A)}">${elem}</div>
+function createCell(row) {
+  return (_, col) =>`
+    <div
+        class="table__cell"
+        contenteditable="true"
+        data-column="${String.fromCharCode(col + CODES.A)}"
+        data-id="${row}:${col}"
+        data-type="cell">
+    </div>
   `;
 }
 
@@ -60,12 +66,12 @@ export function createTable(rowsCount = 15) {
   rows.push(createDelimeterCol());
   rows.push(createRow(cols));
 
-  for (let i = 0; i < rowsCount; i++) {
+  for (let row = 0; row < rowsCount; row++) {
     const cells = new Array(colsCount)
       .fill("")
-      .map(createCell)
+      .map(createCell(row))
       .join("");
-    rows.push(createRow(cells, i + 1));
+    rows.push(createRow(cells, row + 1));
   }
 
   return rows.join("");

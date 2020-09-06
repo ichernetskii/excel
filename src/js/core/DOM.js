@@ -80,6 +80,26 @@ class DOM {
     return this.$el.dataset
   }
 
+  id(parse) {
+    if (parse) {
+      const parsed = this.id().split(":");
+      return {
+        row: +parsed[0],
+        col: +parsed[1]
+      }
+    } else {
+      return this.$el.dataset.id;
+    }
+  }
+
+  get row() {
+    return this.$el.dataset.id.split(":")[0]
+  }
+
+  get col() {
+    return this.$el.dataset.id.split(":")[1]
+  }
+
   css(styles = {}) {
     for (const [key, value] of Object.entries(styles)) {
       this.$el.style[key] = value;
