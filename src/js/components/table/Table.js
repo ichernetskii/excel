@@ -12,9 +12,11 @@ import { $ } from "@core/DOM";
 export class Table extends ExcelComponent {
   static className = "table";
 
-  constructor($root) {
+  constructor($root, options) {
     super($root, {
-      listeners: ["mousedown"]
+      name: "Table",
+      listeners: ["mousedown", "keydown"],
+      ...options
     });
   }
 
@@ -29,12 +31,23 @@ export class Table extends ExcelComponent {
   init() {
     super.init();
     const $cell = this.$root.querySelector("[data-id='0:0']");
-    this.selection.select($cell);
+    this.selection.select(this, $cell);
+    this.emitter.subscribe("FormulaEnter", text => {
+      this.selection.group[0].text(text);
+    });
     window.s = this;
   }
 
   getCell(col, row) {
     return this.$root.querySelector(`[data-id='${row}:${col}']`);
+  }
+
+  get rowsCount() {
+    return this.$root.querySelectorAll("[data-row]").length - 1;
+  }
+
+  get columnsCount() {
+    return this.$root.querySelector("[data-row]").querySelectorAll("[data-column]").length;
   }
 
   onMousedown(event) {
@@ -44,11 +57,39 @@ export class Table extends ExcelComponent {
       const $from = this.selection.group[0];
       const $to = $(event.target);
 
-      this.selection.select($from);
+      this.selection.select(this, $from);
       this.selection.selectGroup(this, $from, $to);
     } else if (isCell(event) && !shiftPressed(event)) {
       const $cell = $(event.target);
-      this.selection.select($cell);
+      this.selection.select(this, $cell);
+    }
+  }
+
+  onKeydown(event) {
+    const keys = ["Enter", "Tab", "ArrowLeft", "ArrowRight", "ArrowDown", "ArrowUp"];
+    const key = event.key;
+
+    if (keys.includes(key) && !event.shiftKey) {
+      event.preventDefault();
+      let $next;
+      const { col, row } = this.selection.group[0].id(true);
+      switch (key) {
+        case "Enter":
+        case "ArrowDown":
+          $next = this.getCell(col, row + (row === this.rowsCount - 1 ? 0 : 1));
+          break;
+        case "ArrowUp":
+          $next = this.getCell(col, row - (row === 0 ? 0 : 1));
+          break;
+        case "ArrowRight":
+        case "Tab":
+          $next = this.getCell(col + (col === this.columnsCount - 1 ? 0 : 1), row);
+          break;
+        case "ArrowLeft":
+          $next = this.getCell(col - (col === 0 ? 0 : 1), row);
+          break;
+      }
+      this.selection.select(this, $next);
     }
   }
 }

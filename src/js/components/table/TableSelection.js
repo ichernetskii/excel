@@ -4,10 +4,11 @@ export class TableSelection {
         this.className = className;
     }
 
-    select($el) {
+    select(table, $el) {
         this.clearSelection();
         this.group.push($el);
-        $el.classList.add(this.className);
+        $el.focus().classList.add(this.className);
+        table.emitter.emit("TableCellSelect", $el.text());
     }
 
     selectGroup(table, $from, $to) {
@@ -17,7 +18,6 @@ export class TableSelection {
         for (let col = Math.min(fromCoords.col, toCoords.col); col <= Math.max(fromCoords.col, toCoords.col); col++) {
             for (let row = Math.min(fromCoords.row, toCoords.row); row <= Math.max(fromCoords.row, toCoords.row); row++) {
                 const $cell = table.getCell(col, row);
-                // if (!this.group.includes($cell)) {
                 if (this.group[0].$el !== $cell.$el) {
                     $cell.classList.add(this.className);
                     this.group.push($cell);

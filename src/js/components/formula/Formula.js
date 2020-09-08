@@ -3,26 +3,26 @@ import { ExcelComponent } from "@core/ExcelComponent.js";
 export class Formula extends ExcelComponent {
   static className = "formula";
 
-  constructor($root) {
+  constructor($root, options) {
     super($root, {
       name: "Formula",
-      listeners: ["input", "click"]
+      listeners: ["input"],
+      ...options
+    });
+    this.emitter.subscribe("TableCellSelect", text => {
+      this.$root.querySelector("[data-type='formulaInput']").text(text);
     });
   }
 
   toHTML() {
     return `
         <div class="formula__info">fx</div>
-        <div class="formula__input" contenteditable="true" spellcheck="false"></div>
+        <div class="formula__input" contenteditable="true" spellcheck="false" data-type="formulaInput"></div>
     `;
   }
 
   onInput(event) {
-    console.log(this.$root);
-    console.log("Event onInput: ", event);
-  }
-
-  onClick(event) {
-    console.log("Event onClick: ", event);
+    const text = event.target.textContent.trim();
+    this.emitter.emit("FormulaEnter", text);
   }
 }
