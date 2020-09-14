@@ -14,11 +14,24 @@ class DOM {
 
   text(text) {
     if (typeof text === "string") {
-      this.$el.innerText = text;
+      this.$el.textContent = text;
       return this;
     } else {
+      if (this.$el.tagName.toLowerCase() === "input") {
+        return this.$el.value.trim();
+      }
       return this.$el.textContent.trim();
     }
+  }
+
+  addClass(className) {
+    this.$el.classList.add(className);
+    return this;
+  }
+
+  removeClass(className) {
+    this.$el.classList.remove(className);
+    return this;
   }
 
   clear() {

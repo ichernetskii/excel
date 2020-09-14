@@ -15,7 +15,7 @@ export class Table extends ExcelComponent {
   constructor($root, options) {
     super($root, {
       name: "Table",
-      listeners: ["mousedown", "keydown"],
+      listeners: ["mousedown", "keydown", "input"],
       ...options
     });
   }
@@ -31,11 +31,22 @@ export class Table extends ExcelComponent {
   init() {
     super.init();
     const $cell = this.$root.querySelector("[data-id='0:0']");
-    this.selection.select(this, $cell);
-    this.emitter.subscribe("FormulaEnter", text => {
+    this.selectCell($cell);
+
+    this.$on("Formula:Input", text => {
       this.selection.group[0].text(text);
     });
+
+    this.$on("Formula:Enter", () => {
+      this.selection.group[0].focus();
+    });
+
     window.s = this;
+  }
+
+  selectCell($cell) {
+    this.selection.select($cell);
+    this.$emit("Table:CellSelect", $cell);
   }
 
   getCell(col, row) {
@@ -54,14 +65,16 @@ export class Table extends ExcelComponent {
     if (shouldResize(event)) {
       resizeHandler(event, this.$root);
     } else if (isCell(event) && shiftPressed(event)) {
+      // multiple selection
       const $from = this.selection.group[0];
       const $to = $(event.target);
 
-      this.selection.select(this, $from);
+      this.selection.select($from);
       this.selection.selectGroup(this, $from, $to);
     } else if (isCell(event) && !shiftPressed(event)) {
+      // single selection
       const $cell = $(event.target);
-      this.selection.select(this, $cell);
+      this.selectCell($cell);
     }
   }
 
@@ -71,25 +84,32 @@ export class Table extends ExcelComponent {
 
     if (keys.includes(key) && !event.shiftKey) {
       event.preventDefault();
-      let $next;
-      const { col, row } = this.selection.group[0].id(true);
+      let { col, row } = this.selection.group[0].id(true);
       switch (key) {
         case "Enter":
         case "ArrowDown":
-          $next = this.getCell(col, row + (row === this.rowsCount - 1 ? 0 : 1));
+          row += row === this.rowsCount - 1 ? 0 : 1;
           break;
         case "ArrowUp":
-          $next = this.getCell(col, row - (row === 0 ? 0 : 1));
+          row -= row === 0 ? 0 : 1;
           break;
         case "ArrowRight":
         case "Tab":
-          $next = this.getCell(col + (col === this.columnsCount - 1 ? 0 : 1), row);
+          col += col === this.columnsCount - 1 ? 0 : 1;
           break;
         case "ArrowLeft":
-          $next = this.getCell(col - (col === 0 ? 0 : 1), row);
+          col -= col === 0 ? 0 : 1;
           break;
       }
-      this.selection.select(this, $next);
+
+      const $cell = this.getCell(col, row);
+      this.selectCell($cell);
+    }
+  }
+
+  onInput(event) {
+    if (!event.shiftKey) {
+      this.$emit("Table:Input", $(event.target).text());
     }
   }
 }

@@ -1,4 +1,5 @@
 import { ExcelComponent } from "@core/ExcelComponent.js";
+import { $ } from "@core/DOM";
 
 export class Formula extends ExcelComponent {
   static className = "formula";
@@ -6,11 +7,22 @@ export class Formula extends ExcelComponent {
   constructor($root, options) {
     super($root, {
       name: "Formula",
-      listeners: ["input"],
+      listeners: ["input", "keydown"],
       ...options
     });
-    this.emitter.subscribe("TableCellSelect", text => {
-      this.$root.querySelector("[data-type='formulaInput']").text(text);
+  }
+
+  init() {
+    super.init();
+
+    this.$formula = this.$root.querySelector("[data-type='formulaInput']");
+
+    this.$on("Table:CellSelect", $el => {
+      this.$formula.text($el.text());
+    });
+
+    this.$on("Table:Input", text => {
+      this.$formula.text(text);
     });
   }
 
@@ -22,7 +34,14 @@ export class Formula extends ExcelComponent {
   }
 
   onInput(event) {
-    const text = event.target.textContent.trim();
-    this.emitter.emit("FormulaEnter", text);
+    this.$emit("Formula:Input", $(event.target).text());
+  }
+
+  onKeydown(event) {
+    const keys = ["Enter", "Tab"];
+    if (keys.includes(event.key) && !event.shiftKey) {
+      event.preventDefault();
+      this.$emit("Formula:Enter", null);
+    }
   }
 }
