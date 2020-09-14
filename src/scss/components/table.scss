@@ -59,6 +59,7 @@
     border-top: none;
     border-left: none;
     outline: none;
+    overflow: auto;
 
     &_selected {
       border: none;

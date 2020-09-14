@@ -14,11 +14,24 @@ class DOM {
 
   text(text) {
     if (typeof text === "string") {
-      this.$el.innerText = text;
+      this.$el.textContent = text;
       return this;
     } else {
+      if (this.$el.tagName.toLowerCase() === "input") {
+        return this.$el.value.trim();
+      }
       return this.$el.textContent.trim();
     }
+  }
+
+  addClass(className) {
+    this.$el.classList.add(className);
+    return this;
+  }
+
+  removeClass(className) {
+    this.$el.classList.remove(className);
+    return this;
   }
 
   clear() {
@@ -78,6 +91,31 @@ class DOM {
 
   get dataset() {
     return this.$el.dataset
+  }
+
+  focus() {
+    this.$el.focus();
+    return this;
+  }
+
+  id(parse) {
+    if (parse) {
+      const parsed = this.id().split(":");
+      return {
+        row: +parsed[0],
+        col: +parsed[1]
+      }
+    } else {
+      return this.$el.dataset.id;
+    }
+  }
+
+  get row() {
+    return this.$el.dataset.id.split(":")[0]
+  }
+
+  get col() {
+    return this.$el.dataset.id.split(":")[1]
   }
 
   css(styles = {}) {
