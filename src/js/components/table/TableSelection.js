@@ -29,4 +29,18 @@ export class TableSelection {
         this.group.forEach($item => $item.removeClass(this.className));
         this.group = [];
     }
+
+    get current() {
+        return this.group[0];
+    }
+
+    get selectedIds() {
+        return this.group.map($el => $el.id());
+    }
+
+    applyStyle(style) {
+        this.group.forEach($el => {
+            $el.css(style);
+        });
+    }
 }

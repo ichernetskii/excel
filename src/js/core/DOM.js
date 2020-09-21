@@ -123,6 +123,13 @@ class DOM {
       this.$el.style[key] = value;
     }
   }
+
+  getStyles(styles = []) {
+    return styles.reduce((acc, style) => {
+      acc[style] = this.$el.style[style];
+      return acc;
+    }, {});
+  }
 }
 
 export function $(selector) {
