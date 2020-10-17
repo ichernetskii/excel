@@ -1,4 +1,6 @@
 import { ExcelComponent } from "@core/ExcelComponent.js";
+import * as actions from "@/redux/actions.js";
+import { debounce } from "@core/utils.js";
 
 export class Header extends ExcelComponent {
   static className = "header";
@@ -6,13 +8,21 @@ export class Header extends ExcelComponent {
   constructor($root, options) {
     super($root, {
       name: "Header",
+      listeners: ["input", "keydown"],
+      subscribe: ["tableTitle"],
       ...options
     });
   }
 
+  prepare() {
+    this.onInput = debounce(this.onInput.bind(this), 300);
+  }
+
   toHTML() {
+    const store = this.store.getState();
+    document.title = `Excel: ${store.tableTitle}`;
     return `
-        <input class="header__input" type="text" value="New table">
+        <input class="header__input" type="text" value="${store.tableTitle}" data-type="header-input">
             <div>
                 <div class="button">
                     <i class="material-icons">delete</i>
@@ -22,5 +32,26 @@ export class Header extends ExcelComponent {
                 </div>
             </div>
     `;
+  }
+
+  init() {
+    super.init();
+    this.$header = this.$root.querySelector("[data-type='header-input']");
+  }
+
+  storeChanged({ tableTitle }) {
+    const title = this.$header.text();
+    document.title = `Excel: ${title}`;
+  }
+
+  onInput(event) {
+    this.$dispatch(actions.changeTitle(this.$header.text()));
+  }
+
+  onKeydown(event) {
+    if (["Tab", "Enter"].includes(event.key)) {
+      event.preventDefault();
+      this.$emit("Header:Input", null);
+    }
   }
 }

@@ -50,7 +50,7 @@
   }
 
   &__cell {
-    display: flex;
+    // display: flex;
     min-width: 40px;
     padding: 5px;
     width: var(--cell-width);
@@ -59,7 +59,7 @@
     border-top: none;
     border-left: none;
     outline: none;
-    overflow: auto;
+    // overflow: auto;
 
     &_selected {
       border: none;

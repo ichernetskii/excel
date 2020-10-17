@@ -13,7 +13,7 @@ class DOM {
   }
 
   text(text) {
-    if (typeof text === "string") {
+    if (typeof text !== "undefined") {
       this.$el.textContent = text;
       return this;
     } else {
@@ -98,6 +98,15 @@ class DOM {
     return this;
   }
 
+  attr(name, value) {
+    if (value) {
+      this.$el.setAttribute(name, value);
+      return this;
+    } else {
+      return this.$el.getAttribute(name);
+    }
+  }
+
   id(parse) {
     if (parse) {
       const parsed = this.id().split(":");
@@ -122,6 +131,13 @@ class DOM {
     for (const [key, value] of Object.entries(styles)) {
       this.$el.style[key] = value;
     }
+  }
+
+  getStyles(styles = []) {
+    return styles.reduce((acc, style) => {
+      acc[style] = this.$el.style[style];
+      return acc;
+    }, {});
   }
 }
 
