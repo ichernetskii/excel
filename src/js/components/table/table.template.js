@@ -1,5 +1,6 @@
 import { toInlineStyles } from "@core/utils.js";
 import { defaultStyles } from "@/constants.js";
+import { parse } from "@core/parse.js";
 
 const CODES = {
   A: "A".charCodeAt(0),
@@ -21,8 +22,9 @@ function createCell(row, col, width, content, state) {
         data-column="${dataColumn}"
         data-id=${id}
         data-type="cell"
+        data-value="${content || ""}"
         style="${widthStr}${styles}">
-        ${content || ""}
+        ${parse(content) || ""}
     </div>`
 }
 

@@ -10,6 +10,7 @@ import {
 import { $ } from "@core/DOM.js";
 import * as actions from "@/redux/actions.js";
 import { defaultStyles } from "@/constants.js";
+import { parse } from "@core/parse.js";
 
 export class Table extends ExcelComponent {
   static className = "table";
@@ -35,9 +36,11 @@ export class Table extends ExcelComponent {
     const $cell = this.$root.querySelector("[data-id='0:0']");
     this.selectCell($cell);
 
-    this.$on("Formula:Input", text => {
-      this.selection.group[0].text(text);
-      this.updateTextInStore(text);
+    this.$on("Formula:Input", value => {
+      this.selection.group[0]
+        .attr("data-value", value)
+        .text(parse(value));
+      this.updateTextInStore(value);
     });
 
     this.$on("Formula:Enter", () => {
@@ -144,7 +147,8 @@ export class Table extends ExcelComponent {
 
   onInput(event) {
     if (!event.shiftKey) {
-      this.updateTextInStore($(event.target).text())
+      $(event.target).dataset.value = $(event.target).text();
+      this.updateTextInStore($(event.target).text());
     }
   }
 }

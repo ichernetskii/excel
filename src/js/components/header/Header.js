@@ -1,5 +1,6 @@
 import { ExcelComponent } from "@core/ExcelComponent.js";
 import * as actions from "@/redux/actions.js";
+import { debounce } from "@core/utils.js";
 
 export class Header extends ExcelComponent {
   static className = "header";
@@ -11,6 +12,10 @@ export class Header extends ExcelComponent {
       subscribe: ["tableTitle"],
       ...options
     });
+  }
+
+  prepare() {
+    this.onInput = debounce(this.onInput.bind(this), 300);
   }
 
   toHTML() {
