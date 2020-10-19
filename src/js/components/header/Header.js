@@ -1,6 +1,8 @@
 import { ExcelComponent } from "@core/ExcelComponent.js";
 import * as actions from "@/redux/actions.js";
-import { debounce } from "@core/utils.js";
+import { debounce, deleteFromStorage } from "@core/utils.js";
+import { ActiveRoute } from "@core/routes/ActiveRoute.js";
+import { $ } from "@core/DOM.js";
 
 export class Header extends ExcelComponent {
   static className = "header";
@@ -8,7 +10,7 @@ export class Header extends ExcelComponent {
   constructor($root, options) {
     super($root, {
       name: "Header",
-      listeners: ["input", "keydown"],
+      listeners: ["input", "keydown", "click"],
       subscribe: ["tableTitle"],
       ...options
     });
@@ -23,14 +25,14 @@ export class Header extends ExcelComponent {
     document.title = `Excel: ${store.tableTitle}`;
     return `
         <input class="header__input" type="text" value="${store.tableTitle}" data-type="header-input">
-            <div>
-                <div class="button">
-                    <i class="material-icons">delete</i>
-                </div>
-                <div class="button">
-                    <i class="material-icons">exit_to_app</i>
-                </div>
-            </div>
+        <div>
+          <div class="button" data-type="delete">
+            <i class="material-icons" data-type="delete">delete</i>
+          </div>
+          <div class="button" data-type="exit">
+            <i class="material-icons" data-type="exit">exit_to_app</i>
+          </div>
+        </div>
     `;
   }
 
@@ -52,6 +54,23 @@ export class Header extends ExcelComponent {
     if (["Tab", "Enter"].includes(event.key)) {
       event.preventDefault();
       this.$emit("Header:Input", null);
+    }
+  }
+
+  onClick(event) {
+    const target = $(event.target);
+    let decision;
+    switch (target.dataset.type) {
+      case "delete":
+        decision = window.confirm(`Are you sure you want to delete table "${this.$header.text()}"?`);
+        if (decision) {
+          deleteFromStorage(`excel:${ActiveRoute.param}`);
+          ActiveRoute.navigate("");
+        }
+        break;
+      case "exit":
+        ActiveRoute.navigate("");
+        break;
     }
   }
 }

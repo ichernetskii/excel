@@ -8,7 +8,7 @@
     "start": "cross-env NODE_ENV=development webpack --config webpack.config.js",
     "watch": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.js --open",
     "build": "cross-env NODE_ENV=production webpack --config webpack.config.js --mode production",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "npx eslint ./src"
   },
   "repository": {
     "type": "git",

@@ -27,6 +27,8 @@ export function rootReducer(state, action) {
             return { ...state, [field]: val, currentStyles: { ...state.currentStyles, ...action.data.value } }
         case types.CHANGE_TITLE:
             return { ...state, tableTitle: action.data };
+        case types.UPDATE_DATE:
+            return { ...state, openedDate: new Date().toJSON() }
         default: return state;
     }
 }
