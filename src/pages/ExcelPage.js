@@ -1,5 +1,5 @@
 import { Page } from "@core/Page.js";
-import { createStore } from "@core/createStore.js";
+import { createStore } from "@core/store/createStore.js";
 import { rootReducer } from "@/redux/rootReducer.js";
 import { normalizeInitialState } from "@/redux/initialState.js";
 import { debounce, storage } from "@core/utils.js";
