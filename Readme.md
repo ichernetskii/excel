@@ -1,3 +1,3 @@
-## Pure JS Excel
+## Pure JS Excel (without any frameworks)
 
-[https://pure-js-excel.netlify.app](https://pure-js-excel.netlify.app)
+Live demo: [https://pure-js-excel.netlify.app](https://pure-js-excel.netlify.app)
